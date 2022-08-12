@@ -1,5 +1,8 @@
+import 'package:bmi_calculator/Models/Weight.dart';
+import 'package:bmi_calculator/Models/button.dart';
+import 'package:bmi_calculator/Models/bmi_age.dart';
 import 'package:flutter/material.dart';
-import 'package:bmi_calculator/widgets/themes.dart';
+import 'Models/height.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,40 +54,28 @@ class _MyAppState extends State<MyApp> {
                     MaleFemale(Icons.male, Colors.blue, 0),
                     MaleFemale(Icons.female, Colors.pink, 1),
                   ]),
-                  Container(
-                      margin: const EdgeInsets.only(top: 15.0, left: 10.0),
-                      child: const Text("Your Height in Cm:",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w500,
-                          ))),
+                  Height(),
                   Container(
                       child: TextField(
-                        textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
                     controller: heightController,
                     decoration: InputDecoration(
-                        hintText: "Your Height in Cm", 
+                        hintText: "Your Height in Cm",
                         fillColor: Colors.grey,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide.none,
                         )),
                   )),
-                  Container(
-                      margin: const EdgeInsets.only(top: 15.0, left: 10.0),
-                      child: const Text("Your Weight in Kg:",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w500,
-                          ))),
+                  Weight(),
                   Container(
                       child: TextField(
-                        textAlign: TextAlign.center,
+                    textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
                     controller: WeightController,
                     decoration: InputDecoration(
-                        hintText: "Your Weight in Kg", 
+                        hintText: "Your Weight in Kg",
                         fillColor: Colors.grey,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -92,53 +83,32 @@ class _MyAppState extends State<MyApp> {
                         )),
                   )),
                   InkWell(
-                    onTap: (){
-                      double height = double.parse(heightController.value.text);
-                      double weight = double.parse(WeightController.value.text);
-                      calculateBmi(height, weight);
-                    },
-                    child: AnimatedContainer(
-                      margin: EdgeInsets.only(top: 10.0),
-                      alignment: Alignment.center,
-                      height: 50.0,
+                      onTap: () {
+                        double height =
+                            double.parse(heightController.value.text);
+                        double weight =
+                            double.parse(WeightController.value.text);
+                        calculateBmi(height, weight);
+                      },
+                      child: ButtonCal()
+                      ),
+                  const SizedBox(height: 20.0),
+                  outputText(),
+                  Container(
                       width: double.infinity,
-                      color: Colors.indigoAccent,
-                      duration: Duration(seconds: 1),
-                      child: const Text("Calculate",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400 
-                                  ),
-                      ))),
-                 const SizedBox(height: 20.0),
-                  Container(
-                    width: double.infinity,
-                    child: Text(
-                      "Your BMI Age is:",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ))),
-                  Container(
-                    width: double.infinity,
-                    child: Text(
-                      "$result",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      )))
+                      child: Text("$result",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )))
                 ],
-              ),
-            ),
-          )),
+              )))),
     );
   }
 
-  void calculateBmi(double height, double weight){
-    double finalresult = weight / (height * height / 10000 );
+  void calculateBmi(double height, double weight) {
+    double finalresult = weight / (height * height / 10000);
     String bmi = finalresult.toStringAsFixed(2);
     setState(() {
       result = bmi;
