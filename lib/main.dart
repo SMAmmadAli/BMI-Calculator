@@ -14,6 +14,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int currentindex = 0;
+  String result = '';
+
+  TextEditingController heightController = TextEditingController();
+  TextEditingController WeightController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,16 +53,23 @@ class _MyAppState extends State<MyApp> {
                   ]),
                   Container(
                       margin: const EdgeInsets.only(top: 15.0, left: 10.0),
-                      child: const Text("Your Age in Cm:",
+                      child: const Text("Your Height in Cm:",
                           style: TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.w500,
                           ))),
                   Container(
                       child: TextField(
+                        textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
+                    controller: heightController,
                     decoration: InputDecoration(
-                        hintText: "Your height in Cm", fillColor: Colors.grey),
+                        hintText: "Your Height in Cm", 
+                        fillColor: Colors.grey,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide.none,
+                        )),
                   )),
                   Container(
                       margin: const EdgeInsets.only(top: 15.0, left: 10.0),
@@ -69,33 +80,69 @@ class _MyAppState extends State<MyApp> {
                           ))),
                   Container(
                       child: TextField(
+                        textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
+                    controller: WeightController,
                     decoration: InputDecoration(
-                        hintText: "Your Weight in Kg", fillColor: Colors.grey),
+                        hintText: "Your Weight in Kg", 
+                        fillColor: Colors.grey,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide.none,
+                        )),
                   )),
                   InkWell(
-                    onTap: (){},
+                    onTap: (){
+                      double height = double.parse(heightController.value.text);
+                      double weight = double.parse(WeightController.value.text);
+                      calculateBmi(height, weight);
+                    },
                     child: AnimatedContainer(
-                      margin: EdgeInsets.only(top: 40.0),
+                      margin: EdgeInsets.only(top: 10.0),
                       alignment: Alignment.center,
                       height: 50.0,
-                      width: 100.0,
+                      width: double.infinity,
                       color: Colors.indigoAccent,
                       duration: Duration(seconds: 1),
-                      child: Text("Calculate",
+                      child: const Text("Calculate",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400 
                                   ),
-                      ),
-                    ),
-                  )
+                      ))),
+                 const SizedBox(height: 20.0),
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      "Your BMI Age is:",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ))),
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      "$result",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      )))
                 ],
               ),
             ),
           )),
     );
+  }
+
+  void calculateBmi(double height, double weight){
+    double finalresult = weight / (height * height / 10000 );
+    String bmi = finalresult.toStringAsFixed(2);
+    setState(() {
+      result = bmi;
+    });
   }
 
   void changeIndex(int index) {
@@ -113,7 +160,7 @@ class _MyAppState extends State<MyApp> {
         changeIndex(index);
       },
       child: AnimatedContainer(
-        height: 80.0,
+        height: 100.0,
         margin: const EdgeInsets.symmetric(horizontal: 12.0),
         duration: const Duration(seconds: 1),
         decoration: BoxDecoration(
