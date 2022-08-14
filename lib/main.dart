@@ -1,6 +1,8 @@
 import 'package:bmi_calculator/Models/Weight.dart';
 import 'package:bmi_calculator/Models/button.dart';
 import 'package:bmi_calculator/Models/bmi_age.dart';
+import 'package:bmi_calculator/widgets/themes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Models/height.dart';
 
@@ -24,86 +26,84 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.dark,
+      darkTheme: MyTheme.darkTheme(context),
+      theme: MyTheme.lightTheme(context),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
-            title: const Text(
-              'BMI Calculator',
-              style: TextStyle(color: Colors.black),
+            title: const Text('BMI Calculator'),
+            leading: IconButton(
+              onPressed: () {},
+              icon: const Icon(CupertinoIcons.home,),
             ),
-            elevation: 0.0,
-            backgroundColor: const Color(0xfffafafa),
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: const Icon(
-                  Icons.settings,
-                  color: Colors.black45,
-                ),
+                icon: const Icon(CupertinoIcons.settings),
               )
             ],
           ),
           body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(children: [
-                    MaleFemale(Icons.male, Colors.blue, 0),
-                    MaleFemale(Icons.female, Colors.pink, 1),
-                  ]),
-                  Height(),
-                  Container(
-                      child: TextField(
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    controller: heightController,
-                    decoration: InputDecoration(
-                        hintText: "Your Height in Cm",
-                        fillColor: Colors.grey,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none,
-                        )),
-                  )),
-                  Weight(),
-                  Container(
-                      child: TextField(
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    controller: WeightController,
-                    decoration: InputDecoration(
-                        hintText: "Your Weight in Kg",
-                        fillColor: Colors.grey,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none,
-                        )),
-                  )),
-                  InkWell(
-                      onTap: () {
-                        double height =
-                            double.parse(heightController.value.text);
-                        double weight =
-                            double.parse(WeightController.value.text);
-                        calculateBmi(height, weight);
-                      },
-                      child: ButtonCal()
-                      ),
-                  const SizedBox(height: 20.0),
-                  outputText(),
-                  Container(
-                      width: double.infinity,
-                      child: Text("$result",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          )))
-                ],
-              )))),
+              child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(children: [
+                        MaleFemale(Icons.male, Colors.blue, 0),
+                        MaleFemale(Icons.female, Colors.pink, 1),
+                      ]),
+                      Height(),
+                      Container(
+                          child: TextField(
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        controller: heightController,
+                        decoration: InputDecoration(
+                            hintText: "Your Height in Cm",
+                            fillColor: Colors.grey,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none,
+                            )),
+                      )),
+                      Weight(),
+                      Container(
+                          child: TextField(
+                        textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        controller: WeightController,
+                        decoration: InputDecoration(
+                            hintText: "Your Weight in Kg",
+                            fillColor: Colors.grey,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: BorderSide.none,
+                            )),
+                      )),
+                      InkWell(
+                          onTap: () {
+                            double height =
+                                double.parse(heightController.value.text);
+                            double weight =
+                                double.parse(WeightController.value.text);
+                            calculateBmi(height, weight);
+                          },
+                          child: ButtonCal()),
+                      const SizedBox(height: 20.0),
+                      outputText(),
+                      Container(
+                          width: double.infinity,
+                          child: Text("$result",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              )))
+                    ],
+                  )))),
     );
   }
 

@@ -14,7 +14,7 @@ class ButtonCal extends StatelessWidget {
         duration: Duration(seconds: 1),
         child: const Text("Calculate",
             style: TextStyle(
-                color: Colors.white,
+                // color: Colors.,
                 fontSize: 15,
                 fontWeight: FontWeight.w400)));
   }
